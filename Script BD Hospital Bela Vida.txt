@@ -1,0 +1,102 @@
+﻿DROP TABLE IF EXISTS Consultas;
+DROP TABLE IF EXISTS Diagnósticos;
+DROP TABLE IF EXISTS Turnos;
+DROP TABLE IF EXISTS Endereços;
+DROP TABLE IF EXISTS Médicos;
+DROP TABLE IF EXISTS Pacientes;
+DROP TABLE IF EXISTS Enfermeiros;
+
+
+CREATE TABLE Pacientes (
+    CPF CHAR(11) NOT NULL PRIMARY KEY,
+    Nome VARCHAR(50) NOT NULL,
+    Sexo INT NOT NULL,
+    Data_nascimento DATE NOT NULL,
+    Data_cadastro DATE NOT NULL,
+    Telefone CHAR(12) NOT NULL,
+    Diagnóstico BIT(1) NOT NULL    
+);
+
+CREATE TABLE Médicos (
+    CPF CHAR(11) NOT NULL PRIMARY KEY,
+    CRM VARCHAR(13) NOT NULL,  
+    Sexo INT NOT NULL,
+    Data_nascimento DATE NOT NULL,
+    Data_admissão DATE NOT NULL,  
+    Nome VARCHAR(50) NOT NULL,
+    Telefone CHAR(11) NOT NULL,
+    Especialidade INT NOT NULL
+);
+
+CREATE TABLE Enfermeiros (
+    CPF CHAR(11) NOT NULL PRIMARY KEY,     
+    Data_nascimento DATE NOT NULL,
+    Data_admissão DATE NOT NULL,  
+    Nome VARCHAR(50) NOT NULL,
+    Telefone CHAR(12) NOT NULL,
+    Sexo INT NOT NULL,
+    Área INT NOT NULL
+);
+
+CREATE TABLE Consultas (    
+    Médico CHAR(11) NOT NULL,
+    Paciente CHAR(11) NOT NULL,
+    Data_consulta DATE,
+    Horário TIME,
+    Tipo INT NOT NULL,
+    FOREIGN KEY (Médico) REFERENCES Médicos(CPF),
+    FOREIGN KEY (Paciente) REFERENCES Pacientes(CPF)
+);
+
+CREATE TABLE Diagnósticos (    
+    Médico CHAR(11) NOT NULL,
+    Paciente CHAR(11) NOT NULL,
+    Doença VARCHAR(50) NOT NULL,
+    Observação VARCHAR(200),
+    Estágio INT NOT NULL,
+    Data_diagnóstico DATE NOT NULL,
+    FOREIGN KEY (Médico) REFERENCES Médicos(CPF),
+    FOREIGN KEY (Paciente) REFERENCES Pacientes(CPF)
+);
+
+CREATE TABLE Turnos (
+    Funcionário CHAR(11) PRIMARY KEY, 
+    Entrada TIME NOT NULL,
+    Saída TIME NOT NULL    
+);
+
+CREATE TABLE Endereços(
+    Chave CHAR(11) NOT NULL PRIMARY KEY,
+    Logradouro VARCHAR(50) NOT NULL,
+    Número VARCHAR(6) NOT NULL,
+    Bairro VARCHAR(30),
+    Complemento VARCHAR(50),
+    CEP CHAR(8),
+    Cidade VARCHAR(50),
+    Estado INT    
+);
+
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('05732489624','José Almeida',1,'1995-11-24','2017-05-03','67992986543',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('65487324245','Pedro Garcia',1,'1987-05-11','2018-01-18','67992344897',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('32156872677','Carlos Gaia',1,'1963-06-27','2017-12-15','67983245798',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('98732478212','Marcelo Vitório',1,'1991-02-01','2016-03-25','67996354781',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('87632156748','Leila Passuan',0,'1996-09-17','2017-08-16','67985534797',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('72245794632','Neymar Junior',1,'1982-12-06','2017-09-13','67996536545',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('87541321324','Lionel Messi',1,'1977-04-11','2016-03-05','67933245214',0);
+INSERT INTO Pacientes(CPF,Nome,Sexo,Data_nascimento,Data_cadastro,Telefone,Diagnóstico) VALUES('57892343287','Roberto Carlos',1,'1985-05-04','2017-10-21','67993648789',0);
+INSERT INTO Médicos(CPF,CRM,Sexo,Data_nascimento,Data_admissão,Nome,Telefone,Especialidade) VALUES('43926936274','97838/MS',1,'1975-10-19','2010-02-01','Livia Pereira Araujo','31920227665',3);
+INSERT INTO Médicos(CPF,CRM,Sexo,Data_nascimento,Data_admissão,Nome,Telefone,Especialidade) VALUES('97899764700','9875465/MS',1,'1980-09-20','2010-03-05','Anna Correia Sousa','83931737877',2);
+INSERT INTO Médicos(CPF,CRM,Sexo,Data_nascimento,Data_admissão,Nome,Telefone,Especialidade) VALUES('74533645666','00568/PR',0,'1990-02-13','2010-02-04','Douglas Costa Gonçalves','67989338541',1);
+INSERT INTO Enfermeiros(CPF,Data_nascimento,Data_admissão,Nome,Telefone,Sexo,Área) VALUES('38040246024','1993-07-28','2010-03-01','Isabella Pinto Martins','11967049710',0,2);
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('05732489624','Rua dos Bobos','70','Vila dos Pacatos','','79854586','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('65487324245','Rua dos Doidos','1052','Vila dos Nervosos','','78421234','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('32156872677','Rua dos Cavalos','325','Vila dos Tempos','','79465656','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('98732478212','Rua das Flores','679','Vila dos Vileiros','','79352785','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('87632156748','Rua dos Furos','1253','Vila Sésamo','','77534359','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('72245794632','Rua das Amnésias','50','Vila dos Viajantes','','77543324','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('87541321324','Rua dos Palmares','3520','Vila dos Malucos','','79654789','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('57892343287','Rua dos Bentos','33','Vila dos Quilombolas','','79357951','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('43926936274','Rua Mariópolis','859','Parque das Vilas','','35163080','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('97899764700','Rua Francisco Brandão','1732','Parque Olímpia','','58038520','Dourados','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('74533645666','Rua Joaquim Nabuco','1076','Parque dos Tupis','','79008340','Campo Grande','11');
+INSERT INTO Endereços(Chave,Logradouro,Número,Bairro,Complemento,CEP,Cidade,Estado) VALUES ('38040246024','Rua Hermes de Moura Borges','1247','Vila Madalena','','03567120','Dourados','11');
